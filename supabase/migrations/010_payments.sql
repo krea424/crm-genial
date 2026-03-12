@@ -2,7 +2,7 @@
 create type payment_status as enum ('atteso', 'ricevuto', 'in_ritardo');
 
 create table payments (
-  id              uuid primary key default uuid_generate_v4(),
+  id              uuid primary key default gen_random_uuid(),
   pratica_id      uuid not null references pratiche(id) on delete cascade,
   preventivo_id   uuid references preventivi(id),
   step_label      text not null,       -- es. "Acconto 30%", "Saldo 70%"

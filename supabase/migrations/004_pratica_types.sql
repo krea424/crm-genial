@@ -1,6 +1,6 @@
 -- Tipi di pratica configurabili (DIA, DOCFA, Permesso Costruire, ecc.)
 create table pratica_types (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   code        text not null unique,  -- es. 'DOCFA', 'DIA', 'PDC'
   label       text not null,         -- es. 'Accatastamento DOCFA'
   description text,

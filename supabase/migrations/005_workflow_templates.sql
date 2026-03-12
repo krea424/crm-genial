@@ -1,6 +1,6 @@
 -- Template workflow: fasi configurabili per tipo di pratica
 create table workflow_templates (
-  id               uuid primary key default uuid_generate_v4(),
+  id               uuid primary key default gen_random_uuid(),
   pratica_type_id  uuid not null references pratica_types(id) on delete cascade,
   phase_order      integer not null,
   phase_code       text not null,    -- es. 'SOPRALLUOGO', 'PRODUZIONE'

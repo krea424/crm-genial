@@ -2,7 +2,7 @@
 create type pratica_status as enum ('lead', 'attiva', 'sospesa', 'completata', 'annullata');
 
 create table pratiche (
-  id                   uuid primary key default uuid_generate_v4(),
+  id                   uuid primary key default gen_random_uuid(),
   practice_code        text unique,    -- generato dal trigger: YYYY-NNN
   pratica_type_id      uuid not null references pratica_types(id),
   client_id            uuid not null references clients(id),

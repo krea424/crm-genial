@@ -1,5 +1,6 @@
--- pg_cron: job schedulati (richiede estensione pg_cron abilitata in Supabase)
--- Abilita in Supabase Dashboard → Database → Extensions → pg_cron
+-- pg_cron: abilita estensione e configura job schedulati
+create extension if not exists pg_cron;
+grant usage on schema cron to postgres;
 
 -- Job 1: SLA monitoring — ogni ora controlla pratiche attive in breach o warning
 -- Crea notifiche se SLA al 80%+ senza duplicati nelle ultime 24h

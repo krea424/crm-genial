@@ -1,6 +1,6 @@
 -- Storico fasi: ogni riga = una fase completata o in corso
 create table pratica_phases (
-  id              uuid primary key default uuid_generate_v4(),
+  id              uuid primary key default gen_random_uuid(),
   pratica_id      uuid not null references pratiche(id) on delete cascade,
   phase_code      text not null,
   phase_label     text not null,

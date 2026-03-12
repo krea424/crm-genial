@@ -10,7 +10,7 @@ create type notification_type as enum (
 );
 
 create table notifications (
-  id            uuid primary key default uuid_generate_v4(),
+  id            uuid primary key default gen_random_uuid(),
   recipient_id  uuid not null references profiles(id) on delete cascade,
   type          notification_type not null,
   title         text not null,

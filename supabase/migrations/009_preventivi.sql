@@ -2,7 +2,7 @@
 create type preventivo_status as enum ('bozza', 'inviato', 'accettato', 'rifiutato', 'scaduto');
 
 create table preventivi (
-  id                 uuid primary key default uuid_generate_v4(),
+  id                 uuid primary key default gen_random_uuid(),
   pratica_id         uuid not null references pratiche(id) on delete cascade,
   version_number     integer not null default 1,
   status             preventivo_status not null default 'bozza',

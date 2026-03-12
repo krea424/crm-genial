@@ -1,6 +1,6 @@
 -- Audit log immutabile: append-only, NESSUN UPDATE o DELETE permesso
 create table audit_log (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   entity_type  text not null,  -- es. 'pratica', 'preventivo', 'pagamento'
   entity_id    uuid not null,
   action       text not null,  -- es. 'created', 'status_changed', 'handoff', 'drive_folder_created'

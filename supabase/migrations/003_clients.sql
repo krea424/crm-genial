@@ -2,7 +2,7 @@
 create type client_type as enum ('privato', 'azienda', 'ente_pubblico');
 
 create table clients (
-  id            uuid primary key default uuid_generate_v4(),
+  id            uuid primary key default gen_random_uuid(),
   client_type   client_type not null default 'privato',
   first_name    text,
   last_name     text,

@@ -1,6 +1,6 @@
 -- Task operativi: micro-attività sotto ogni fase
 create table tasks (
-  id               uuid primary key default uuid_generate_v4(),
+  id               uuid primary key default gen_random_uuid(),
   pratica_id       uuid not null references pratiche(id) on delete cascade,
   phase_code       text not null,
   title            text not null,
