@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation'
 import { LogOut, User } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,20 +42,22 @@ export function TopBar({ user }: TopBarProps) {
         <NotificationBell userId={user.id} />
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="gap-2">
-              <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center">
-                <User className="w-4 h-4 text-blue-600" />
-              </div>
-              <div className="text-left hidden sm:block">
-                <p className="text-sm font-medium leading-none">{user.full_name}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{ROLE_LABELS[user.role]}</p>
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger
+            render={
+              <button className="inline-flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-100 transition-colors text-sm">
+                <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center">
+                  <User className="w-4 h-4 text-blue-600" />
+                </div>
+                <div className="text-left hidden sm:block">
+                  <p className="text-sm font-medium leading-none">{user.full_name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{ROLE_LABELS[user.role]}</p>
+                </div>
+              </button>
+            }
+          />
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem asChild>
-              <a href="/impostazioni">Profilo</a>
+            <DropdownMenuItem onClick={() => router.push('/impostazioni')}>
+              Profilo
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="text-red-600">
