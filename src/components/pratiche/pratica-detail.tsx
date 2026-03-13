@@ -7,12 +7,13 @@ import {
   ArrowLeft, ArrowRight, CheckCircle2, Clock, User, MapPin,
   FileText, ExternalLink, AlertTriangle,
 } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { SlaIndicator } from '@/components/shared/sla-indicator'
 import { HandoffDialog } from './handoff-dialog'
+import { PreventivoCard } from '@/components/economic/preventivo-card'
+import { PreventivoForm } from '@/components/economic/preventivo-form'
 import { triggerHandoff } from '@/lib/workflow/handoff'
-import { formatDate, formatDateTime, formatCurrency, getClientDisplayName } from '@/utils/format'
+import { formatDate, formatDateTime, getClientDisplayName } from '@/utils/format'
 import { getHoursInPhase, getSlaStatus } from '@/utils/sla'
 import type {
   Pratica, PraticaPhase, Task, Preventivo, Payment,
@@ -332,76 +333,36 @@ export function PraticaDetail({
 
       {/* Tab: Economico */}
       {tab === 'economico' && (
-        <div className="space-y-4">
-          {preventivi.length === 0 ? (
-            <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-              <p className="text-sm text-gray-400">Nessun preventivo per questa pratica.</p>
-            </div>
-          ) : (
-            preventivi.map(prev => (
-              <div key={prev.id} className="bg-white border border-gray-200 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold text-gray-700">
-                    Preventivo v{prev.version_number}
-                  </span>
-                  <Badge variant={prev.status === 'accettato' ? 'default' : 'outline'}>
-                    {prev.status}
-                  </Badge>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Onorario</span>
-                    <span>{formatCurrency(prev.honorarium)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Spese</span>
-                    <span>{formatCurrency(prev.expenses)}</span>
-                  </div>
-                  <div className="flex justify-between font-medium">
-                    <span className="text-gray-700">Totale lordo</span>
-                    <span>{formatCurrency(prev.total_gross)}</span>
-                  </div>
-                  <div className="flex justify-between font-medium">
-                    <span className="text-gray-700">Netto</span>
-                    <span>{formatCurrency(prev.total_net)}</span>
-                  </div>
-                </div>
-                {prev.valid_until && (
-                  <p className="text-xs text-gray-400 mt-2">
-                    Valido fino al {formatDate(prev.valid_until)}
-                  </p>
-                )}
+        <div className="space-y-4 max-w-2xl">
+          {/* Lista preventivi */}
+          {preventivi.map(prev => (
+            <PreventivoCard
+              key={prev.id}
+              preventivo={prev}
+              payments={payments}
+              currentUser={currentUser}
+              praticaId={pratica.id}
+            />
+          ))}
+
+          {/* Form nuovo preventivo */}
+          {['titolare', 'admin', 'amministrativa'].includes(currentUser.role) && (
+            <details className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <summary className="px-4 py-3 cursor-pointer text-sm font-medium text-blue-700 hover:bg-blue-50 list-none flex items-center gap-2">
+                <span>+ Nuovo preventivo v{preventivi.length + 1}</span>
+              </summary>
+              <div className="px-4 pb-4 pt-2 border-t border-gray-100">
+                <PreventivoForm
+                  praticaId={pratica.id}
+                  nextVersion={preventivi.length + 1}
+                />
               </div>
-            ))
+            </details>
           )}
 
-          {/* Pagamenti */}
-          {payments.length > 0 && (
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Piano pagamenti</h3>
-              <div className="space-y-2">
-                {payments.map(pay => (
-                  <div key={pay.id} className="flex items-center justify-between text-sm">
-                    <div>
-                      <span className="font-medium">{pay.step_label}</span>
-                      {pay.due_date && (
-                        <span className="text-gray-500 ml-2">— scadenza {formatDate(pay.due_date)}</span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span>{formatCurrency(pay.amount)}</span>
-                      <Badge
-                        variant={
-                          pay.status === 'ricevuto' ? 'default' :
-                          pay.status === 'in_ritardo' ? 'destructive' : 'outline'
-                        }
-                      >
-                        {pay.status}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {preventivi.length === 0 && !['titolare', 'admin', 'amministrativa'].includes(currentUser.role) && (
+            <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+              <p className="text-sm text-gray-400">Nessun preventivo per questa pratica.</p>
             </div>
           )}
         </div>
