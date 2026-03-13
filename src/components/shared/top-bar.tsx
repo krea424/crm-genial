@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { NotificationBell } from '@/components/notifications/notification-bell'
+import { GlobalSearch } from '@/components/shared/global-search'
 import type { Profile } from '@/types/database'
 
 const ROLE_LABELS: Record<string, string> = {
@@ -36,7 +37,7 @@ export function TopBar({ user }: TopBarProps) {
 
   return (
     <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6">
-      <div />
+      <GlobalSearch />
 
       <div className="flex items-center gap-3">
         <NotificationBell userId={user.id} />

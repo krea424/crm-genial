@@ -9,6 +9,7 @@ import {
   Users,
   Settings,
   Building2,
+  BarChart3,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { UserRole } from '@/types/database'
@@ -43,6 +44,12 @@ const NAV_ITEMS: NavItem[] = [
     href: '/dashboard',
     label: 'Dashboard BI',
     icon: LayoutDashboard,
+    roles: ['titolare', 'admin'],
+  },
+  {
+    href: '/analytics',
+    label: 'Analytics',
+    icon: BarChart3,
     roles: ['titolare', 'admin'],
   },
   {
