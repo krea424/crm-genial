@@ -68,8 +68,8 @@ export function PraticaRow({ pratica }: PraticaRowProps) {
         {/* SLA indicator */}
         <SlaIndicator
           hoursInPhase={hoursInPhase}
-          slaHours={0} // sarà popolato con dati reali dalla query
-          status={pratica.status === 'attiva' && hoursInPhase > 0 ? getSlaStatus(hoursInPhase, 48) : 'none'}
+          slaHours={0}
+          slaStatus={pratica.status === 'attiva' && hoursInPhase > 0 ? getSlaStatus(hoursInPhase, 48) : 'none'}
         />
       </div>
     </Link>
